@@ -50,18 +50,22 @@ rain=tp['Rainfall']
 
 
 l=[]
-l.append(ah)
+#temperature comes before ph in the dataset. these results will aslo wildly affect the output
 l.append(atemp)
+l.append(ah)
 l.append(pH)
 l.append(rain)
 predictcrop=[l]
 
-# Putting the names of crop in a single list
-crops=['wheat','mungbean','Tea','millet','maize','lentil','jute','cofee','cotton','ground nut','peas','rubber','sugarcane','tobacco','kidney beans','moth beans','coconut','blackgram','adzuki beans','pigeon peas','chick peas','banana','grapes','apple','mango','muskmelon','orange','papaya','watermelon','pomegranate']
-cr='rice'
+#the coloumns need to be in the same order as the datapoints for correct input
+crops = np.array(data.iloc[: ,4:].columns);
 
-#Predicting the crop
-predictions = clf.predict(predictcrop)
+
+inputval = sc.transform([[17.47500984,	16.54314829,  6.18042747,	93.35034262]]) #sample values for chickpeas
+#predicting the crop
+predictions = clf.predict(inputval)
+#you forgot to transform the values before passing it to the predictor
+
 count=0
 for i in range(0,30):
     if(predictions[0][i]==1):
